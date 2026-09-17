@@ -5,11 +5,10 @@ public class Cliente {
     private int tlfno ;
     private String matricula ;
 
-
     /*MÉTODOS*/
     //Métodos getters y setters para todos los atributos que se pidan por pantalla
     public void setId(int id) {
-        this.id = id;
+        this.id = (int)( Math.random()*100+1);
     }
     public int getId() {
         return id;
@@ -39,6 +38,6 @@ public class Cliente {
     //Devuelve por pantalla la información del cliente
     @Override
     public String toString() {
-        return "[ID: "+id+" || Nombre: "+getNombre()+" || Teléfono: "+getTlfno()+" || Matrícula: "+getMatricula()+"]";
+        return "[ID: "+id+" || Nombre: "+getNombre()+" || Teléfono: "+getTlfno()+" || Matrícula: "+getMatricula()+"]\t";
     }
 }
