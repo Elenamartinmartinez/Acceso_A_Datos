@@ -1,15 +1,20 @@
 public class Cliente {
     /*ATRIBUTOS*/
-    private int id ;
+    private final int id ;
     private String nombre ;
-    private int tlfno ;
+    private String tlfno ;
     private String matricula ;
+
+    /*CONSTRUCTOR*/
+    public Cliente (int id, String nombre, String tlfno, String matricula) {
+        this.id = id;
+        this.nombre = nombre;
+        this.tlfno = tlfno;
+        this.matricula = matricula.trim().toUpperCase();
+    }
 
     /*MÉTODOS*/
     //Métodos getters y setters para todos los atributos que se pidan por pantalla
-    public void setId(int id) {
-        this.id = (int)( Math.random()*100+1);
-    }
     public int getId() {
         return id;
     }
@@ -21,10 +26,10 @@ public class Cliente {
         return nombre;
     }
 
-    public void setTlfno(int tlfno) {
+    public void setTlfno(String tlfno) {
         this.tlfno = tlfno;
     }
-    public int getTlfno() {
+    public String getTlfno() {
         return tlfno;
     }
 
