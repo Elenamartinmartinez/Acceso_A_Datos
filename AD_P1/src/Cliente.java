@@ -10,7 +10,7 @@ public class Cliente {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
-        this.matricula = matricula;
+        this.matricula = matricula.toUpperCase();
     }
 
     /*MÉTODOS*/
