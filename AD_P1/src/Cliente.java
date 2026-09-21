@@ -1,40 +1,28 @@
 public class Cliente {
     /*ATRIBUTOS*/
-    private final int id ;
-    private String nombre ;
-    private String tlfno ;
-    private String matricula ;
+    private int id;
+    private String nombre;
+    private String telefono;
+    private String matricula;
 
     /*CONSTRUCTOR*/
-    public Cliente (int id, String nombre, String tlfno, String matricula) {
+    public Cliente(int id, String nombre, String telefono, String matricula) {
         this.id = id;
         this.nombre = nombre;
-        this.tlfno = tlfno;
-        this.matricula = matricula.trim().toUpperCase();
+        this.telefono = telefono;
+        this.matricula = matricula;
     }
 
     /*MÉTODOS*/
-    //Métodos getters y setters para todos los atributos que se pidan por pantalla
+    //Getters y Setters para todos los atributos
     public int getId() {
         return id;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
     public String getNombre() {
         return nombre;
     }
-
-    public void setTlfno(String tlfno) {
-        this.tlfno = tlfno;
-    }
-    public String getTlfno() {
-        return tlfno;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public String getTelefono() {
+        return telefono;
     }
     public String getMatricula() {
         return matricula;
@@ -43,6 +31,6 @@ public class Cliente {
     //Devuelve por pantalla la información del cliente
     @Override
     public String toString() {
-        return "[ID: "+id+" || Nombre: "+getNombre()+" || Teléfono: "+getTlfno()+" || Matrícula: "+getMatricula()+"]\t";
+        return "[ID: "+id+" || Nombre: "+getNombre()+" || Teléfono: "+getTelefono()+" || Matrícula: "+getMatricula()+"]\t";
     }
 }

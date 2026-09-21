@@ -1,6 +1,9 @@
 import java.util.*;
 
 public class Main {
+    //Definiciones globales de los objetos de ficheros
+    private static Repositorio_Clientes repoClientes = new Repositorio_Clientes();
+    private static Repositorio_Pagos repoPagos = new Repositorio_Pagos();
 
     //Listas globales
     private static List<Cliente> c = new ArrayList<>();
@@ -11,8 +14,10 @@ public class Main {
     //Contador global para guardar las identificaciones de los pagos realizados
     private static int contIdPagos = 1;
 
+    static Scanner sc = new Scanner(System.in);
+
     public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
+        sc = new Scanner(System.in);
 
         /*Menú de opciones*/
         int op;
@@ -76,6 +81,9 @@ public class Main {
         //Guardamos al nuevo cliente una vez sus datos sean correctos (y le damos su identificador)
         Cliente nuevoC = new Cliente(contIdClientes++, nombre, tlfno, matricula);
         c.add(nuevoC);
+
+        repoClientes.guardarCliente(nuevoC);//Guardamos el nuevo cliente en el repositorio
+
         System.out.println("¡Cliente creado!");
         System.out.println("Su identificador es: "+nuevoC.getId()); //Mostramos por pantalla el id
     }
@@ -91,12 +99,11 @@ public class Main {
         for (Cliente clientes : c) {
             System.out.println(clientes);
         }
-
     }
 
     //Buscar clientes
     public static void buscarClientes () {
-        Scanner sc = new Scanner(System.in);
+        sc = new Scanner(System.in);
         boolean existe = false;
 
         System.out.print("Introduzca el nombre del cliente a buscar: ");
@@ -109,13 +116,57 @@ public class Main {
 
     //Procesar un pago
     public static void procesarPago () {
+        if (c.isEmpty()) { //No se puede registrar ningún pago sin clientes registrados
+            System.out.println("No hay clientes registrados");
+            return;
+        }
 
+        mostrarClientes(); //Mostrar los clientes registrados
+        System.out.println("ID del cliente que desee realizar un pago: ");
+        int idCliente = sc.nextInt();
 
+        //Comprobamos que el cliente existe
+        Cliente clienteSelec = null;
+        for (Cliente client : c) {
+            if (client.getId() == idCliente) { //Seleccionamos el ID correspondiente
+                clienteSelec = client;
+            }
+        }
+
+        if (clienteSelec == null) {
+            System.out.println("No existe un cliente con ese ID...");
+        }
+
+        //Pedimos los datos restantes para registrar el pago
+        System.out.println("1.- Fecha (dd/MM/aaa): ");
+        String fecha = sc.next();
+
+        System.out.println("2.- Importe: ");
+        double importe = sc.nextDouble();
+
+        System.out.println("3.- Litros: ");
+        double litros = sc.nextDouble();
+
+        System.out.println("4.- Combustible: ");
+        String combustible = sc.next();
+
+        Pagos_Repostajes pago = new Pagos_Repostajes(contIdPagos++, idCliente, fecha, importe, litros, combustible);
+        p.add(pago);
+
+        repoPagos.guardarPago(pago); //Guardamos el nuevo pago en el repositorio
     }
 
     //Consultar pagos
     public static void mostrarPagos () {
+        if (p.isEmpty()) { //En caso de que no se haya registrado ningún cliente todavía
+            System.out.println("No hay pagos registrados...");
+            return;
+        }
 
+        //En caso de que si haya clientes registrados se mostrarán por pantalla
+        for (Pagos_Repostajes pagos : p) {
+            System.out.println(pagos);
+        }
 
     }
 }
