@@ -167,6 +167,5 @@ public class Main {
         for (Pagos_Repostajes pagos : p) {
             System.out.println(pagos);
         }
-
     }
 }
