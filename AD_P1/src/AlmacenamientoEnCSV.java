@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.*;
+import java.nio.charset.*;
 import java.nio.file.*;
 import java.util.List;
 
@@ -12,23 +10,25 @@ public class AlmacenamientoEnCSV implements Almacenamiento{
     Path archivoPagos;
 
     public AlmacenamientoEnCSV () throws IOException {
-        directorio = Path.of("datos");
-        Files.createDirectory(directorio);
-        archivoClientes = directorio.resolve("clientes");
-        archivoPagos = directorio.resolve("pagos");
-    }
+        directorio = Path.of("D:","User","Alumno Mañana","Documents","2DAM","Acceso_A_Datos","Acceso_A_Datos","AD_P1");
+        //D:\Users\Alumno Mañana\Documents\2DAM\Acceso_A_Datos\Acceso_A_Datos\AD_P1
 
+        Files.createDirectory(directorio);
+        archivoClientes = directorio.resolve("clientes.csv");
+        archivoPagos = directorio.resolve("pagos.csv");
+    }
 
     @Override
     public List<Cliente> leerCliente() {
+        try (BufferedReader br = Files.newBufferedReader(archivoClientes, StandardCharsets.UTF_8);){
+            String linea;
 
-        try (BufferedReader bf = Files.newBufferedReader(archivoClientes);){
-
-
+            while ((linea = br.readLine()) != null) {
+                System.out.println(linea); //Muestra cada cliente
+            }
 
         } catch (IOException e) {
-            //System.out.println("Error: "+e);
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return List.of();
     }
@@ -38,20 +38,35 @@ public class AlmacenamientoEnCSV implements Almacenamiento{
         try (BufferedWriter bw = Files.newBufferedWriter(archivoClientes, StandardOpenOption.CREATE_NEW)) {
             //Respetar formato CSV
             bw.write(cliente.toString());
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return false;
+        return true;
     }
 
     @Override
     public List<Pagos_Repostajes> leerPagos() {
+        try (BufferedReader bf = Files.newBufferedReader(archivoPagos);){
+            String linea;
+
+            while ((linea = bf.readLine()) != null) {
+                System.out.println(linea); //Muestra cada pago por pantalla
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return List.of();
     }
 
     @Override
     public boolean escribirPagos(Pagos_Repostajes pagos) {
-        return false;
+        try (BufferedWriter bw = Files.newBufferedWriter(archivoPagos, StandardOpenOption.CREATE_NEW)) {
+            //Respetar formato CSV
+            bw.write(pagos.toString());
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
     }
 }

@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 public class Cliente {
     /*ATRIBUTOS*/
     private int id;
@@ -27,6 +29,21 @@ public class Cliente {
     public String getMatricula() {
         return matricula;
     }
+
+    //Comparar dos matrículas (No se pueden repetir)
+    /*
+    public int 'compare' (Cliente c1, Cliente c2) {
+        return c1.getMatricula().compareToIgnoreCase(c2.getMatricula());
+    }
+    */
+
+    //Comparar dos id en caso de que se repita algún nombre
+    /*
+    public int 'compare'(Cliente c1, Cliente c2) {
+
+        return c1.getId() - c2.getId();
+    }
+    */
 
     //Devuelve por pantalla la información del cliente
     @Override

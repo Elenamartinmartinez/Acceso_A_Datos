@@ -1,4 +1,6 @@
 import java.util.*;
+import java.io.*;
+import java.nio.*;
 
 public class Main {
     //Definiciones globales de los objetos de ficheros
@@ -45,6 +47,13 @@ public class Main {
                 System.out.println("Por favor, introduce un número válido");
             }
         } while (op != 0);
+
+        try {
+            Almacenamiento alm = new AlmacenamientoEnCSV(); //Creamos el repositorio del tipo que queramos
+        } catch (IOException e) {
+            System.out.println("¡Error! algo no ha salido bien al crear el repositorio..."); //En caso de que haya algún problema con la creación del fichero
+            throw new RuntimeException(e); //Mostrar el error por pantalla
+        }
     }
 
     /*Métodos*/
@@ -62,7 +71,7 @@ public class Main {
 
     //Crear un cliente
     public static void crearCliente (Scanner sc) {
-        //Para dar de alta un cliente pedimos toda la info menos el id que se genera automáticamente
+        //Para dar de alta un cliente pedimos toda la info menos el 'id' que se genera automáticamente
         System.out.print("1.- Nombre: ");
         String nombre = sc.next();
 
@@ -85,7 +94,7 @@ public class Main {
         repoClientes.guardarCliente(nuevoC);//Guardamos el nuevo cliente en el repositorio
 
         System.out.println("¡Cliente creado!");
-        System.out.println("Su identificador es: "+nuevoC.getId()); //Mostramos por pantalla el id
+        System.out.println("Su identificador es: "+nuevoC.getId()); //Mostramos por pantalla el 'id'
     }
 
     //Listar a los clientes ya registrados
@@ -106,12 +115,10 @@ public class Main {
         sc = new Scanner(System.in);
         boolean existe = false;
 
-        System.out.print("Introduzca el nombre del cliente a buscar: ");
-        String nombre = sc.next();
+        System.out.print("Introduzca el ID del cliente a buscar: ");
+        int ide = sc.nextInt();
 
-        for (Cliente cliente : c) {
-            
-        }
+
     }
 
     //Procesar un pago
@@ -154,6 +161,7 @@ public class Main {
         p.add(pago);
 
         repoPagos.guardarPago(pago); //Guardamos el nuevo pago en el repositorio
+
     }
 
     //Consultar pagos
