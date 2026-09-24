@@ -45,6 +45,17 @@ public class Cliente {
     }
     */
 
+    //Como se mostrará en el fichero correspondiente
+    public String toCSV() {
+        return "[ID: "+id+" || Nombre: "+getNombre()+" || Teléfono: "+getTelefono()+" || Matrícula: "+getMatricula()+"]\t";
+    }
+
+    //Reconstruir el objeto desde CSV
+    public static Cliente fromCSV (String linea) {
+        String[] partes = linea.split(";", -1);
+        return new Cliente ( Integer.parseInt(partes[0]), partes[1], partes[2], partes[3]);
+    }
+
     //Devuelve por pantalla la información del cliente
     @Override
     public String toString() {
