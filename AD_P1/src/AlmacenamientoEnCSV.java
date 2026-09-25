@@ -56,7 +56,7 @@ public class AlmacenamientoEnCSV implements Almacenamiento{
             bw.newLine();
             return true;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("¡Error!: "+e);
             return false;
         }
     }
@@ -86,7 +86,7 @@ public class AlmacenamientoEnCSV implements Almacenamiento{
             bw.newLine();
             return true;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("¡Error!: "+e);
             return false;
         }
     }
