@@ -1,4 +1,4 @@
-import java.util.Comparator;
+import java.util.Locale;
 
 public class Cliente {
     /*ATRIBUTOS*/
@@ -9,10 +9,19 @@ public class Cliente {
 
     /*CONSTRUCTOR*/
     public Cliente(int id, String nombre, String telefono, String matricula) {
+        if (id <= 0) throw new IllegalArgumentException("El ID debe ser positivo.");
         this.id = id;
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.matricula = matricula.toUpperCase();
+        this.nombre = obligatorio(nombre, "Nombre");
+        this.telefono = obligatorio(telefono, "Teléfono");
+        this.matricula = obligatorio(matricula, "Matrícula").toUpperCase(Locale.ROOT);
+    }
+
+    //No permite que los campos seleccionados se queden en blancos, el cliente no sería válido
+    private static String obligatorio(String s, String campo) {
+        if (s == null || s.trim().isEmpty()) {
+            System.out.println("El campo ["+campo+"] es obligatorio");
+        }
+        return s.trim();
     }
 
     /*MÉTODOS*/
@@ -30,31 +39,6 @@ public class Cliente {
         return matricula;
     }
 
-    //Comparar dos matrículas (No se pueden repetir)
-    /*
-    public int 'compare' (Cliente c1, Cliente c2) {
-        return c1.getMatricula().compareToIgnoreCase(c2.getMatricula());
-    }
-    */
-
-    //Comparar dos id en caso de que se repita algún nombre
-    /*
-    public int 'compare'(Cliente c1, Cliente c2) {
-
-        return c1.getId() - c2.getId();
-    }
-    */
-
-    //Como se mostrará en el fichero correspondiente
-    public String toCSV() {
-        return "[ID: "+id+" || Nombre: "+getNombre()+" || Teléfono: "+getTelefono()+" || Matrícula: "+getMatricula()+"]\t";
-    }
-
-    //Reconstruir el objeto desde CSV
-    public static Cliente fromCSV (String linea) {
-        String[] partes = linea.split(";", -1);
-        return new Cliente ( Integer.parseInt(partes[0]), partes[1], partes[2], partes[3]);
-    }
 
     //Devuelve por pantalla la información del cliente
     @Override

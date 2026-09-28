@@ -1,11 +1,12 @@
+import java.io.IOException;
 import java.util.*;
 
 public interface Almacenamiento {
     //Cliente
-    public List<Cliente> leerCliente ();
-    public boolean escribirCliente (Cliente cliente);
+    List<Cliente> leerCliente () throws IOException;
+    void escribirCliente (Cliente cliente) throws IOException;
 
     //
-    public List<Pagos_Repostajes> leerPagos();
-    public boolean escribirPagos (Pagos_Repostajes pagos);
+    List<Pagos_Repostajes> leerPagos() throws IOException;
+    void escribirPagos (Pagos_Repostajes pagos) throws IOException;
 }

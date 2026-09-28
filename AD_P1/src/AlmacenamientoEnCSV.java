@@ -1,93 +1,85 @@
-import java.io.*;
-import java.nio.charset.*;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlmacenamientoEnCSV implements Almacenamiento{
+public class AlmacenamientoEnCSV implements Almacenamiento {
+    private final Path archivoClientes = Path.of("datos", "clientes.csv");
+    private final Path archivoPagos = Path.of("datos", "pagos.csv");
 
-    Path directorio;
-    Path archivoClientes;
-    Path archivoPagos;
-
-    public AlmacenamientoEnCSV () throws IOException {
-        /*DIRECTORIO*/
-        directorio = Path.of("datos");
-
-        //En caso de que no exista el directorio, se crea automáticamente
-        if (!Files.exists(directorio)) {
-            Files.createDirectory(directorio);
-        }
-
-        /*ARCHIVOS DE DIRECTORIO*/
-        archivoClientes = directorio.resolve("clientes.csv");
-        archivoPagos = directorio.resolve("pagos.csv");
-
-        //En caso de que los archivos no existan, se crean automáticamente
-        if (!Files.exists(archivoClientes)) {
-            Files.createFile(archivoClientes);
-        }
+    public AlmacenamientoEnCSV() throws IOException {
+        Files.createDirectories(archivoClientes.getParent());
+        if (Files.notExists(archivoClientes)) Files.createFile(archivoClientes);
+        if (Files.notExists(archivoPagos)) Files.createFile(archivoPagos);
     }
 
     @Override
-    public List<Cliente> leerCliente() {
-        List<Cliente> listaCli = new ArrayList<>();
-
-        try (BufferedReader br = Files.newBufferedReader(archivoClientes, StandardCharsets.UTF_8);){
-            String linea;
-
-            while ((linea = br.readLine()) != null) {
-                if (!linea.isBlank()) {
-                    listaCli.add(Cliente.fromCSV(linea)); //Lee cada cliente y lo añade
-                }
+    public List<Cliente> leerCliente() throws IOException {
+        List<Cliente> lista = new ArrayList<>();
+        int numeroLinea = 0;
+        for (String linea : Files.readAllLines(archivoClientes, StandardCharsets.UTF_8)) {
+            numeroLinea++;
+            if (linea.isBlank()) continue;
+            try {
+                List<String> c = decodificar(linea);
+                if (c.size() != 4) throw new IllegalArgumentException("Número de campos incorrecto");
+                lista.add(new Cliente(Integer.parseInt(c.get(0)), c.get(1), c.get(2), c.get(3)));
+            } catch (RuntimeException e) {
+                throw new IOException("Registro inválido en clientes.csv, línea " + numeroLinea, e);
             }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-        return listaCli;
+        return lista;
     }
 
     @Override
-    public boolean escribirCliente(Cliente cliente) {
-        try (BufferedWriter bw = Files.newBufferedWriter(archivoClientes, StandardOpenOption.CREATE_NEW)) {
-            //Respetar formato CSV
-            bw.write(cliente.toCSV());
-            bw.newLine();
-            return true;
-        } catch (IOException e) {
-            System.out.println("¡Error!: "+e);
-            return false;
-        }
+    public void escribirCliente(Cliente c) throws IOException {
+        anexar(archivoClientes, c.getId() + ";" + codificar(c.getNombre()) + ";" +
+                codificar(c.getTelefono()) + ";" + codificar(c.getMatricula()));
     }
 
     @Override
-    public List<Pagos_Repostajes> leerPagos() {
-       List<Pagos_Repostajes> listaPag = new ArrayList<>();
-
-        try (BufferedReader bf = Files.newBufferedReader(archivoPagos);){
-            String linea;
-            while ((linea = bf.readLine()) != null) {
-                if (!linea.isBlank()) {
-                    listaPag.add(Pagos_Repostajes.fromCSV(linea));
-                }
+    public List<Pagos_Repostajes> leerPagos() throws IOException {
+        List<Pagos_Repostajes> lista = new ArrayList<>();
+        int numeroLinea = 0;
+        for (String linea : Files.readAllLines(archivoPagos, StandardCharsets.UTF_8)) {
+            numeroLinea++;
+            if (linea.isBlank()) continue;
+            try {
+                List<String> c = decodificar(linea);
+                if (c.size() != 6) throw new IllegalArgumentException("Número de campos incorrecto");
+                lista.add(new Pagos_Repostajes(Integer.parseInt(c.get(0)),
+                        Integer.parseInt(c.get(1)), java.time.LocalDate.parse(c.get(2)),
+                        Double.parseDouble(c.get(3)), Double.parseDouble(c.get(4)), c.get(5)));
+            } catch (RuntimeException e) {
+                throw new IOException("Registro inválido en pagos.csv, línea " + numeroLinea, e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-        return listaPag;
+        return lista;
     }
 
     @Override
-    public boolean escribirPagos(Pagos_Repostajes pagos) {
-        try (BufferedWriter bw = Files.newBufferedWriter(archivoPagos, StandardOpenOption.CREATE_NEW)) {
-            //Respetar formato CSV
-            bw.write(pagos.toCSV());
-            bw.newLine();
-            return true;
-        } catch (IOException e) {
-            System.out.println("¡Error!: "+e);
-            return false;
+    public void escribirPagos (Pagos_Repostajes p) throws IOException {
+        anexar(archivoPagos, p.getId() + ";" + p.getIdCliente() + ";" + p.getFecha() + ";" + p.getImporte() + ";" + p.getLitros() + ";" + codificar(p.getCombustible()));
+    }
+
+    private void anexar(Path archivo, String linea) throws IOException {
+        Files.writeString(archivo, linea + System.lineSeparator(), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+    }
+
+    //El texto mantiene la misma estructura aunque se codifique
+    private String codificar(String texto) {
+        return java.util.Base64.getEncoder().encodeToString(texto.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private List<String> decodificar(String linea) {
+        String[] partes = linea.split(";", -1);
+        List<String> campos = new ArrayList<>();
+        for (int i = 0; i < partes.length; i++) {
+            if ((partes.length == 4 && i > 0) || (partes.length == 6 && i == 5)) {
+                campos.add(new String(java.util.Base64.getDecoder().decode(partes[i]), StandardCharsets.UTF_8));
+            } else campos.add(partes[i]);
         }
+        return campos;
     }
 }
