@@ -94,7 +94,7 @@ public class Menu {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         for (Pagos_Repostajes p : pagos) {
-            System.out.printf("%d | %s | %s | %.2f € | %.2f | %s%n", p.getId(), gasolinera.nombreCliente(p.getIdCliente()), p.getFecha().format(f), p.getImporte(), p.getLitros(), p.getCombustible());
+            System.out.printf("%d || %s || %s || %.2f € || %.2f || %s%n", p.getId(), gasolinera.nombreCliente(p.getIdCliente()), p.getFecha().format(f), p.getImporte(), p.getLitros(), p.getCombustible());
         }
     }
 }

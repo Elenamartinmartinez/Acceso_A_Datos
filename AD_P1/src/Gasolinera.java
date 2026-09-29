@@ -13,9 +13,10 @@ public class Gasolinera {
         this.almacenamiento = almacenamiento;
         clientes = new ArrayList<>(almacenamiento.leerCliente());
         pagos = new ArrayList<>(almacenamiento.leerPagos());
-        siguienteIdCliente = 1;
-        //clientes.stream().mapToInt(Cliente::getId).max().orElse(0) + 1; <- Otra opción
-        siguienteIdPago = 1;
+
+        //lo probe con solo números e ir sumando y daba muchos problemas, está opción funciona mejor
+        siguienteIdCliente = clientes.stream().mapToInt(Cliente::getId).max().orElse(0) + 1;
+        siguienteIdPago = pagos.stream().mapToInt(Pagos_Repostajes::getId).max().orElse(0) + 1;
     }
 
     public List<Cliente> getClientesOrdenados() { //Se ordena por nombre y en caso de que dos nombres se repitan, se ordena por id
