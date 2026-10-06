@@ -19,7 +19,7 @@ public class Gasolinera {
         siguienteIdPago = pagos.stream().mapToInt(Pagos_Repostajes::getId).max().orElse(0) + 1;
     }
 
-    public List<Cliente> getClientesOrdenados() { //Se ordena por nombre y en caso de que dos nombres se repitan, se ordena por id
+    public List<Cliente> getClientesOrdenados() { //Se ordena por nombre y en caso de que dos nombres se repitan, se ordena por 'id'
         return clientes.stream().sorted(Comparator.comparing(Cliente::getNombre, String.CASE_INSENSITIVE_ORDER).thenComparingInt(Cliente::getId)).toList();
     }
 
@@ -43,7 +43,7 @@ public class Gasolinera {
 
         almacenamiento.escribirCliente(nuevo); //Añade el nuevo cliente al fichero correspondiente
         clientes.add(nuevo); //Mismo cliente, pero a la lista que se muestra por pantalla
-        siguienteIdCliente++; //Por cada cliente se añade uno al id
+        siguienteIdCliente++; //Por cada cliente se añade uno al 'id'
         return nuevo;
     }
 
@@ -56,7 +56,7 @@ public class Gasolinera {
 
         almacenamiento.escribirPagos(pago); //Añade el nuevo cliente al fichero correspondiente
         pagos.add(pago); //Mismo pago, pero a la lista que se muestra por pantalla
-        siguienteIdPago++; //Por cada pago se añade uno al id
+        siguienteIdPago++; //Por cada pago se añade uno al 'id'
         return pago;
     }
 
