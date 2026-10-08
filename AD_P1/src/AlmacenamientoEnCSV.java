@@ -8,7 +8,7 @@ public class AlmacenamientoEnCSV implements Almacenamiento {
     private final Path archivoClientes = Path.of("datos-practica1", "clientes.csv");
     private final Path archivoPagos = Path.of("datos-practica1", "pagos.csv");
 
-    public AlmacenamientoEnCSV() throws IOException {
+    public AlmacenamientoEnCSV(Path origen) throws IOException {
         Files.createDirectories(archivoClientes.getParent());
         if (Files.notExists(archivoClientes)) Files.createFile(archivoClientes);
         if (Files.notExists(archivoPagos)) Files.createFile(archivoPagos);

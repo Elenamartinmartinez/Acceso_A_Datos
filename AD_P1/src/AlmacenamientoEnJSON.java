@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlmacenamientoEnJSON implements Almacenamiento{
+    //estructuras para el JSON
+    private final String JSON_open = "{";
+    private final String JSON_close = "}";
+
     //Rutas a los ficheros en JSON (Estén o no creados)
     private final Path archivoClientesJson = Path.of("datos-practica2", "clientes.json");
     private final Path archivoPagosJson = Path.of("datos-practica2", "pagos.json");
@@ -19,7 +23,7 @@ public class AlmacenamientoEnJSON implements Almacenamiento{
 
     /*Métodos implementados de la interfaz de almacenamiento*/
     @Override
-    public List<Cliente> leerCliente() throws IOException { //Guarda los nuevos clientes en un '.JSON'
+    public List<Cliente> leerCliente() throws IOException { //Guarda los nuevos clientes en un 'JSON'
         List<Cliente> lista = new ArrayList<>();
         int numeroLinea = 0;
         for (String linea : Files.readAllLines(archivoClientesJson, StandardCharsets.UTF_8)) {
@@ -38,8 +42,8 @@ public class AlmacenamientoEnJSON implements Almacenamiento{
 
     @Override
     public void escribirCliente(Cliente c) throws IOException { //Formato con el que los guarda
-        anexar(archivoClientesJson, c.getId() + "," + codificar(c.getNombre()) + "," +
-                codificar(c.getTelefono()) + "," + codificar(c.getMatricula()));
+        anexar(archivoClientesJson, "{'id': "+c.getId() + ", 'nombre': " + codificar(c.getNombre()) + ", 'telefono': " +
+                codificar(c.getTelefono()) + ", 'matricula': " + codificar(c.getMatricula())+"}");
     }
 
     @Override
@@ -64,7 +68,7 @@ public class AlmacenamientoEnJSON implements Almacenamiento{
 
     @Override
     public void escribirPagos (Pagos_Repostajes p) throws IOException { //Formato con el que los guarda
-        anexar(archivoPagosJson, p.getId() + "," + p.getIdCliente() + "," + p.getFecha() + "," + p.getImporte() + "," + p.getLitros() + ";" + codificar(p.getCombustible()));
+        anexar(archivoPagosJson, "{'id':"+p.getId() + ", 'clienteID':" +p.getIdCliente() + ", 'fecha': "+p.getFecha() + ", 'importe': " + p.getImporte() + ", 'litros': " + p.getLitros() + ", 'combustible: '" + codificar(p.getCombustible())+"}");
     }
 
     /*Métodos para pasar los datos al fichero*/
@@ -88,17 +92,3 @@ public class AlmacenamientoEnJSON implements Almacenamiento{
         return campos;
     }
 }
-
-/*
-Formato JSON
-{
-   "clientes": [
-    {
-    }
-    {
-    }
-    {
-    }
-   ]
-}
-*/

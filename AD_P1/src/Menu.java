@@ -1,7 +1,8 @@
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Menu {
@@ -11,20 +12,36 @@ public class Menu {
 
     public Menu(Gasolinera gasolinera) { this.gasolinera = gasolinera; }
 
-    public void iniciar() {
-        //Primero preguntar si hay ficheros creados en formato 'CSV' para migrarlos a 'JSON'
+    public void migrarDatos () {
+    //Primero preguntar si hay ficheros creados en formato 'CSV' para migrarlos a 'JSON'
         System.out.println("Antes de continuar con su gestión");
         System.out.print("¿Existen ficheros ya creados y con datos en formato '.CSV'?: ");
         String pr = sc.next();
-        if (pr.toLowerCase() == "si") { //En caso de que si haya ficheros en csv sin pasar, migrarlos al formato json
+        if (pr.equalsIgnoreCase("si")) { //En caso de que si haya ficheros en csv sin pasar, migrarlos al formato json
             System.out.print("Introduzca donde se localizan los ficheros en formato CSV (origen): ");
-            String ruta1 = sc.next().toLowerCase(); //A minúsculas porque el nombre de la ruta es así
+            String ruta1 = sc.next(); //A minúsculas porque el nombre de la ruta es así
 
             System.out.print("Introduzca donde se van a migrar los ficheros a formato JSON (destino): ");
-            String ruta2 = sc.next().toLowerCase();//A minúsculas porque el nombre de la ruta es así
+            String ruta2 = sc.next();//A minúsculas porque el nombre de la ruta es así
 
-        } else { //Si ya no hay nada más que pasar a json, seguir con el programa normal
-            System.out.println("Perfecto, mostrando menú...");
+            Path origen = Path.of(ruta1); //La ruta de origen donde están los csv
+            Path destino = Path.of(ruta2); //Donde se migrarán a json
+
+            try {
+                MigraCSVToJSON m = new MigraCSVToJSON(origen, destino);
+                m.migracion();
+
+            } catch (IOException e){
+                System.out.println("Ha ocurrido algún error durante la migración..."+e);
+            }
+        }
+    }
+
+    public void iniciar() {
+        Path destino = Path.of("datos-practica2");
+
+        if (!Files.exists(destino)) {
+            migrarDatos();
         }
 
         boolean salir = false;
