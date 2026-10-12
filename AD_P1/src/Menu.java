@@ -12,37 +12,10 @@ public class Menu {
 
     public Menu(Gasolinera gasolinera) { this.gasolinera = gasolinera; }
 
-    public void migrarDatos () {
-    //Primero preguntar si hay ficheros creados en formato 'CSV' para migrarlos a 'JSON'
-        System.out.println("Antes de continuar con su gestión");
-        System.out.print("¿Existen ficheros ya creados y con datos en formato '.CSV'?: ");
-        String pr = sc.next();
-        if (pr.equalsIgnoreCase("si")) { //En caso de que si haya ficheros en csv sin pasar, migrarlos al formato json
-            System.out.print("Introduzca donde se localizan los ficheros en formato CSV (origen): ");
-            String ruta1 = sc.next(); //A minúsculas porque el nombre de la ruta es así
-
-            System.out.print("Introduzca donde se van a migrar los ficheros a formato JSON (destino): ");
-            String ruta2 = sc.next();//A minúsculas porque el nombre de la ruta es así
-
-            Path origen = Path.of(ruta1); //La ruta de origen donde están los csv
-            Path destino = Path.of(ruta2); //Donde se migrarán a json
-
-            try {
-                MigraCSVToJSON m = new MigraCSVToJSON(origen, destino);
-                m.migracion();
-
-            } catch (IOException e){
-                System.out.println("Ha ocurrido algún error durante la migración..."+e);
-            }
-        }
-    }
 
     public void iniciar() {
-        Path destino = Path.of("datos-practica2");
-
-        if (!Files.exists(destino)) {
-            migrarDatos();
-        }
+        //Iniciar la migración a JSON en caso de que haya algo en CSV
+        MigraCSVToJSON.ejecutarMig(Path.of("datos-practica2"));
 
         boolean salir = false;
         while (!salir) {
