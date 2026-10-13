@@ -1,5 +1,6 @@
 [
-  {"id": 1, "clienteId": 1, "fecha": "2026-09-29", "importe": 2,00, "litros": 3,00, "combustible": "Gasolina 95"},
-  {"id": 2, "clienteId": 3, "fecha": "2026-09-29", "importe": 5,00, "litros": 8,00, "combustible": "Diésel"},
-  {"id": 3, "clienteId": 6, "fecha": "2026-10-13", "importe": 15,98, "litros": 34,02, "combustible": "diesel"}
+  {"id": 1, "clienteId": 1, "fecha": "2026-10-13", "importe": 2.00, "litros": 3.00, "combustible": "Gasolina"},
+  {"id": 2, "clienteId": 3, "fecha": "2026-10-13", "importe": 5.00, "litros": 8.00, "combustible": "Diésel"},
+  {"id": 3, "clienteId": 6, "fecha": "2026-10-13", "importe": 15.98, "litros": 34.02, "combustible": "Diésel"},
+  {"id": 4, "clienteId": 6, "fecha": "2026-10-13", "importe": 150.06, "litros": 1.56, "combustible": "Gasolina 95"}
 ]

@@ -7,6 +7,7 @@ public class Main {
       try {
           Scanner sc = new Scanner(System.in);
           Path destino = MigraCSVToJSON.ejecutarMig(Path.of("datos-practica2"), sc);
+          //Almacenamiento alm = new AlmacenamientoEnCSV(destino);
           Almacenamiento alm = new AlmacenamientoEnJSON(destino);
           Gasolinera g = new Gasolinera(alm);
           new Menu(g, sc).iniciar();
