@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -7,16 +6,17 @@ import java.util.Scanner;
 
 public class Menu {
     private final Gasolinera gasolinera;
-    private final Scanner sc = new Scanner(System.in);
-    private final Entrada entrada = new Entrada(sc);
+    private Scanner sc = new Scanner(System.in);
+    private Entrada entrada = new Entrada(sc);
 
-    public Menu(Gasolinera gasolinera) { this.gasolinera = gasolinera; }
+    public Menu(Gasolinera gasolinera, Scanner sc) {
+        this.gasolinera = gasolinera;
+        this.sc = sc;
+        this.entrada = new Entrada(sc);
+    }
 
 
-    public void iniciar() {
-        //Iniciar la migración a JSON en caso de que haya algo en CSV
-        MigraCSVToJSON.ejecutarMig(Path.of("datos-practica2"));
-
+    public void iniciar() throws IOException {
         boolean salir = false;
         while (!salir) {
             mostrarMenu();
@@ -39,7 +39,7 @@ public class Menu {
     }
 
     private void mostrarMenu() {
-        System.out.println("\\n=== GESTIÓN DE GASOLINERA ===");
+        System.out.println("\n=== GESTIÓN DE GASOLINERA ===");
         System.out.println("1. Dar de alta un cliente");
         System.out.println("2. Listar clientes");
         System.out.println("3. Buscar clientes");

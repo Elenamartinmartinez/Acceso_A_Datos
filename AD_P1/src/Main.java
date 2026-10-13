@@ -1,13 +1,17 @@
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Scanner;
 
 public class Main {
   public static void main(String[] args) {
-        try {
-            Almacenamiento almacenamiento = new AlmacenamientoEnJSON();
-            Gasolinera gasolinera = new Gasolinera(almacenamiento);
-            new Menu(gasolinera).iniciar();
-        } catch (IOException | IllegalArgumentException e) {
-            System.out.println("No se pudo iniciar la aplicación: " + e.getMessage());
-        }
+      try {
+          Scanner sc = new Scanner(System.in);
+          Path destino = MigraCSVToJSON.ejecutarMig(Path.of("datos-practica2"), sc);
+          Almacenamiento alm = new AlmacenamientoEnJSON(destino);
+          Gasolinera g = new Gasolinera(alm);
+          new Menu(g, sc).iniciar();
+      } catch (IOException | IllegalArgumentException e) {
+          System.out.println("No se pudo iniciar la aplicación: " + e);
+      }
   }
 }

@@ -13,45 +13,50 @@ public class MigraCSVToJSON {
         this.destino = destino;
     }
 
-    public static void ejecutarMig (Path directorioDestinoPorDefecto) {
+    private static boolean tieneDatos(Path p) throws IOException {
+        return Files.exists(p) && Files.size(p) > 2; // más que "[]"
+    }
+
+    public static Path ejecutarMig(Path directorioDestinoPorDefecto, Scanner sc) throws IOException {
         Path clientesJson = directorioDestinoPorDefecto.resolve("clientes.json");
         Path pagosJson = directorioDestinoPorDefecto.resolve("pagos.json");
 
-        // Si ya existen los ficheros JSON, omitimos la migración (arranques posteriores)
-        if (Files.exists(clientesJson) || Files.exists(pagosJson)) {
-            return;
+        // Si ya tiene datos
+        if (tieneDatos(clientesJson) || tieneDatos(pagosJson)) {
+            return directorioDestinoPorDefecto;
         }
 
-        Scanner sc = new Scanner(System.in);
         System.out.println("=== ASISTENTE ===");
         System.out.print("¿Existen ficheros ya creados y con datos en formato '.CSV' para migrar? (si/no): ");
         String respuesta = sc.nextLine().trim();
+
+        Path destinoFinal = directorioDestinoPorDefecto;
 
         if (respuesta.equalsIgnoreCase("si")) { //Si la respuesta es 'no' se pasa directamente al menú
             System.out.print("Introduzca la ruta de origen de los CSV: "); //Ruta de origen 'datos-practica1'
             String rutaOrigen = sc.nextLine().trim();
 
-            System.out.print("Introduzca la ruta de destino para los JSON: "); //Ruta destino 'datos-practica2'
-            String rutaDestino = sc.nextLine().trim();
+            System.out.print("Introduzca la ruta de destino para los JSON: "); //Ruta destíno 'datos-practica2'
+            destinoFinal = Path.of(sc.nextLine().trim());
 
-            MigraCSVToJSON migrador = new MigraCSVToJSON(Path.of(rutaOrigen), Path.of(rutaDestino));
+            MigraCSVToJSON m = new MigraCSVToJSON(Path.of(rutaOrigen), (destinoFinal));
             try {
-                migrador.migracion();
+                m.migracion();
             } catch (IOException e) { //En caso de que la migración no sea posible
                 System.out.println("Error la ejecución de la migración: " + e);
             }
         } else {
             System.out.println("Creando fichero...");
         }
+        return destinoFinal;
     }
 
     public void migracion () throws IOException {
         Path clientesJson = destino.resolve("clientes.json");
         Path pagosJson = destino.resolve("pagos.json");
 
-
-        if (Files.exists(clientesJson) || Files.exists(pagosJson) || Files.exists(destino)) {
-            System.out.println("Migración cancelada: el destino ya existe o tiene datos.");
+        if (tieneDatos(clientesJson) || tieneDatos(pagosJson)) {
+            System.out.println("Migración cancelada: el destino ya tiene datos.");
             return;
         }
 

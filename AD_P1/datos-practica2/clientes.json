@@ -1,0 +1,10 @@
+[
+  {"id": 1, "nombre": "Elena", "telefono": "+346982361725", "matricula": "1A"},
+  {"id": 2, "nombre": "Paula", "telefono": "+35698235568", "matricula": "4IPE"},
+  {"id": 3, "nombre": "Sergio", "telefono": "+3465892158", "matricula": "98PIO"},
+  {"id": 4, "nombre": "Amanda", "telefono": "+365984258", "matricula": "8PLA"},
+  {"id": 5, "nombre": "Elena", "telefono": "+69462932", "matricula": "9OA"},
+  {"id": 6, "nombre": "Marcos", "telefono": "+654965", "matricula": "9PAPOI"},
+  {"id": 7, "nombre": "Idaira", "telefono": "+36597553", "matricula": "OPA088"},
+  {"id": 8, "nombre": "Juan Luis", "telefono": "+36458211", "matricula": "98JHG"}
+]

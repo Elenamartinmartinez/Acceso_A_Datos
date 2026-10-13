@@ -2,10 +2,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AlmacenamientoEnJSON implements Almacenamiento{
 
@@ -18,7 +18,7 @@ public class AlmacenamientoEnJSON implements Almacenamiento{
     }
 
     public AlmacenamientoEnJSON (Path directorio) throws IOException { //Crea los ficheros en caso de que no existan
-        Files.createDirectory(directorio);//Se crea el directorio que contendrá ambos ficheros
+        Files.createDirectories(directorio);//Se crea el directorio que contendrá ambos ficheros
 
         archivoClientesJson = directorio.resolve("clientes.json"); //Fichero para almacenar los clientes
         archivoPagosJson = directorio.resolve("pagos.json"); //Fichero para almacenar los pagos
@@ -38,7 +38,7 @@ public class AlmacenamientoEnJSON implements Almacenamiento{
         List<Cliente> lista = new ArrayList<>();
         String contenido = Files.readString(archivoClientesJson, StandardCharsets.UTF_8).trim();
 
-        if (contenido.equals("[]") || contenido.isEmpty()) { return lista; }//Le todas las lineas del fichero
+        if (contenido.equals("[]") || contenido.isEmpty()) { return lista; }//Le todas las líneas del fichero
 
         contenido = contenido.substring(1, contenido.length() - 1).trim(); //Quita los corchetes externos y se queda con el resto de la info del cliente
         if (contenido.isEmpty()) { return lista; }
@@ -157,23 +157,12 @@ public class AlmacenamientoEnJSON implements Almacenamiento{
         for (int i = 0; i < pagos.size(); i++) {
             Pagos_Repostajes pag = pagos.get(i);
             //Formato en el que se guardan los '.json'
-            sb.append(String.format("  {\"id\": %d, \"clienteId\": %d, \"fecha\": \"%s\", \"importe\": %.2f, \"litros\": %.2f, \"combustible\": \"%s\"}",
+            sb.append(String.format(Locale.ROOT,"  {\"id\": %d, \"clienteId\": %d, \"fecha\": \"%s\", \"importe\": %.2f, \"litros\": %.2f, \"combustible\": \"%s\"}",
                     pag.getId(), pag.getIdCliente(), pag.getFecha().toString(), pag.getImporte(), pag.getLitros(), pag.getCombustible()));
             if (i < pagos.size() - 1) sb.append(",");
             sb.append("\n");
         }
         sb.append("]");
-        Files.writeString(archivoPagosJson, sb.toString(), StandardCharsets.UTF_8);//Escribe el cliente en el '.json'
-    }
-
-    private List<String> decodificar(String linea) {
-        String[] partes = linea.split(",", -1);
-        List<String> campos = new ArrayList<>();
-        for (int i = 0; i < partes.length; i++) {
-            if ((partes.length == 4 && i > 0) || (partes.length == 6 && i == 5)) {
-                campos.add(new String(java.util.Base64.getDecoder().decode(partes[i]), StandardCharsets.UTF_8));
-            } else campos.add(partes[i]);
-        }
-        return campos;
+        Files.writeString(archivoPagosJson, sb.toString(), StandardCharsets.UTF_8);//Escribe el pago en el '.json'
     }
 }
