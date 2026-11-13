@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="mock:///InsertsBBDDJava.java" value="ca7e6d23-0943-4fcb-aa60-6c70793e1a2a" />
+    <file url="file://$PROJECT_DIR$/sql/01-esquema.sql" value="ca7e6d23-0943-4fcb-aa60-6c70793e1a2a" />
+  </component>
+</project>
