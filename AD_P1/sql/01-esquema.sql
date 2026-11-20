@@ -1,4 +1,6 @@
 /*Creación de las tablas*/
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE clientes (
     id INTEGER PRIMARY KEY CHECK ( id > 0 ), --No puede ser nulo ni menor o igual a 0
     nombre TEXT NOT NULL CHECK ( length(trim(nombre)) > 0 ),--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
