@@ -21,7 +21,12 @@ public class CrearBBDD {
                 fecha TEXT NOT NULL,
                 importe REAL NOT NULL,
                 litros REAL NOT NULL,
+<<<<<<< HEAD:AD_P1/src/persistencia/bd/CrearBBDD.java
                 combustible TEXT NOT NULL,                
+=======
+                combustible TEXT NOT NULL,
+                
+>>>>>>> ed85ad85013e4f2caea32e477c2b6cf87fc6e60a:AD_P1/src/CrearBBDD.java
                 FOREIGN KEY (cliente_id) REFERENCES clientes(id)
             )""";
 
