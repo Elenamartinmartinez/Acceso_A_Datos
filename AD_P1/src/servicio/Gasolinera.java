@@ -1,3 +1,9 @@
+package servicio;
+
+import modelo.Cliente;
+import modelo.Pagos_Repostajes;
+import persistencia.Almacenamiento;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;

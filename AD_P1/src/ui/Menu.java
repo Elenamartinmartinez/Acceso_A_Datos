@@ -1,3 +1,9 @@
+package ui;
+
+import modelo.Cliente;
+import modelo.Pagos_Repostajes;
+import servicio.Gasolinera;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;

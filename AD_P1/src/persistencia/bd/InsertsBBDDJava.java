@@ -1,3 +1,5 @@
+package persistencia.bd;
+
 import java.sql.*;
 import java.time.LocalDate;
 

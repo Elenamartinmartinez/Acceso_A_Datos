@@ -1,3 +1,8 @@
+package persistencia;
+
+import modelo.Cliente;
+import modelo.Pagos_Repostajes;
+
 import java.io.IOException;
 import java.util.*;
 

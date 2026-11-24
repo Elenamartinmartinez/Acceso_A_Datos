@@ -1,3 +1,9 @@
+package persistencia.json;
+
+import modelo.Cliente;
+import modelo.Pagos_Repostajes;
+import persistencia.Almacenamiento;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
