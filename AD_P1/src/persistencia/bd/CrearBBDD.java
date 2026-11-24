@@ -7,27 +7,22 @@ import java.sql.Statement;
 public class CrearBBDD {
     //Creamos una tabla para los clientes
     private static final String CREAR_CLIENTES = """
-            CREATE TABLE IF NOT EXISTS clientes (
-                id INTEGER PRIMARY KEY,
-                nombre TEXT NOT NULL,
-                tlfno TEXT NOT NULL,
-                matricula TEXT NOT NULL
+            CREATE TABLE IF NOT EXISTS CLIENTES (
+                ID INTEGER PRIMARY KEY,
+                NOMBRE TEXT NOT NULL,
+                TLFNO TEXT NOT NULL,
+                MATRICULA TEXT NOT NULL
             )""";
     //Creamos una tabla para los pagos
     private static final String CREAR_PAGOS = """
-            CREATE TABLE IF NOT EXISTS pagos_repostajes (
-                id INTEGER PRIMARY KEY,
-                cliente_id INTEGER NOT NULL,
-                fecha TEXT NOT NULL,
-                importe REAL NOT NULL,
-                litros REAL NOT NULL,
-<<<<<<< HEAD:AD_P1/src/persistencia/bd/CrearBBDD.java
-                combustible TEXT NOT NULL,                
-=======
-                combustible TEXT NOT NULL,
-                
->>>>>>> ed85ad85013e4f2caea32e477c2b6cf87fc6e60a:AD_P1/src/CrearBBDD.java
-                FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+            CREATE TABLE IF NOT EXISTS PAGOS_REPOSTAJES (
+                ID INTEGER PRIMARY KEY,
+                CLIENTE_ID INTEGER NOT NULL,
+                FECHA TEXT NOT NULL,
+                IMPORTE REAL NOT NULL,
+                LITROS REAL NOT NULL,
+                COMBUSTIBLE TEXT NOT NULL,
+                FOREIGN KEY (CLIENTE_ID) REFERENCES CLIENTES(ID)
             )""";
 
     private CrearBBDD () {}

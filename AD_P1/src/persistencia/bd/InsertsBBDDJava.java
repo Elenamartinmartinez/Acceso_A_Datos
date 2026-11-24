@@ -63,7 +63,7 @@ public class InsertsBBDDJava {
     //Insertar los datos en la tabla de pagos de repostaje
     private static void insertarPagos(Connection conexion) throws SQLException{
         //Para añadir la información
-        String sql = "INSERT INTO pagos_repostajes (id, cliente_id, fecha, importe, litros, combustible) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO main.pagos_repostaje (id, cliente_id, fecha, importe, litros, combustible) VALUES (?,?,?,?,?,?)";
 
         try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
             for (int i = 1; i <= MAX_Pagos; i++) {//Añade pagos hasta llegar al límite

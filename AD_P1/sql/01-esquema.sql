@@ -1,20 +1,20 @@
 /*Creación de las tablas*/
-PRAGMA foreign_keys = ON;
+PRAGMA FOREIGN_KEYS = ON;
 
-CREATE TABLE clientes (
-    id INTEGER PRIMARY KEY CHECK ( id > 0 ), --No puede ser nulo ni menor o igual a 0
-    nombre TEXT NOT NULL CHECK ( length(trim(nombre)) > 0 ),--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
-    tlfno TEXT NOT NULL CHECK ( length(trim(tlfno)) > 0 ),--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
-    matricula TEXT NOT NULL CHECK ( length(trim(matricula)) > 0 )--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
+CREATE TABLE CLIENTES (
+    ID INTEGER PRIMARY KEY CHECK ( ID > 0 ), --No puede ser nulo ni menor o igual a 0
+    NOMBRE TEXT NOT NULL CHECK ( LENGTH(TRIM(NOMBRE)) > 0 ),--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
+    TLFNO TEXT NOT NULL CHECK ( LENGTH(TRIM(TLFNO)) > 0 ),--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
+    MATRICULA TEXT NOT NULL CHECK ( LENGTH(TRIM(MATRICULA)) > 0 )--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
 ) STRICT;
 
-CREATE TABLE pagos_repostaje (
-    id INTEGER PRIMARY KEY CHECK ( id > 0 ), ----No puede ser nulo ni menor o igual a 0
-    cliente_id INTEGER NOT NULL,
-    fecha TEXT NOT NULL CHECK ( length(fecha) = 10 AND fecha GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'),--Para el formato de la fecha se usa GLOB
-    importe REAL NOT NULL CHECK ( importe > 0 ), --No puede ser nulo ni menor o igual a 0
-    litros REAL NOT NULL CHECK ( litros > 0 ), --No puede ser nulo ni menor o igual a 0
-    combustible TEXT NOT NULL CHECK ( length(trim(combustible)) > 0 ),--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
+CREATE TABLE PAGOS_REPOSTAJE (
+    ID INTEGER PRIMARY KEY CHECK ( ID > 0 ), ----No puede ser nulo ni menor o igual a 0
+    CLIENTE_ID INTEGER NOT NULL,
+    FECHA TEXT NOT NULL CHECK ( LENGTH(FECHA) = 10 AND FECHA GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'),--Para el formato de la fecha se usa GLOB
+    IMPORTE REAL NOT NULL CHECK ( IMPORTE > 0 ), --No puede ser nulo ni menor o igual a 0
+    LITROS REAL NOT NULL CHECK ( LITROS > 0 ), --No puede ser nulo ni menor o igual a 0
+    COMBUSTIBLE TEXT NOT NULL CHECK ( LENGTH(TRIM(COMBUSTIBLE)) > 0 ),--No puede ser nulo ni menor o igual a 0 y borra los espacios del texto
 
-    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+    FOREIGN KEY (CLIENTE_ID) REFERENCES CLIENTES(ID)
 ) STRICT;
